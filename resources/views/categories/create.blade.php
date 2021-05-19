@@ -3,14 +3,17 @@
 @section('content')
 
 <div class="card card-default">
-    <div class="card-header "> {{ isset($category) ? 'Edit Category' : 'Create Category' }} </div>
+    <div class="card-header ">@isset($category) Edit Category @else Create category @endisset</div>
     <div class="card-body">
 
     <form action="{{ isset($category) ? route('categories.update', $category->id) : route('categories.store') }}" method="POST">
         @csrf
-        @if(isset($category))
+        @isset($category)
+          @method('PUT') 
+        @endisset
+        {{-- @if(isset($category))
            @method('PUT') 
-        @endif
+        @endif --}}
             
     <div class="form-group">
     <label for="name">Name</label>

@@ -14,6 +14,7 @@
 
  # use Illuminate\Routing\Route;
 
+use App\Http\Controllers\PostsController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -25,6 +26,9 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::resource('categories','CategoriesController'); 
+Route::resource('categories','CategoriesController');
+
+Route::resource('posts', 'PostsController');
 
 #Route::get('cartegories','CartegoriesController@index');
+
