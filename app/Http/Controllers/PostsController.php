@@ -16,7 +16,7 @@ class PostsController extends Controller
      */
     public function index()
     {
-        return view ('posts.index');
+        return view ('posts.index')->with ('posts', Post::all());
     }
 
     /**
@@ -39,8 +39,10 @@ class PostsController extends Controller
     {
         // upload image to storage
        // dd($request -> image ->store('posts'));
+
+    //    return dd(request());
        $image = $request -> image ->store('posts');
-\ 
+         //
         // Create a post
         Post::create([
             'title' => $request->title,
@@ -99,6 +101,28 @@ class PostsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $post = Post::withTrashed()->where('id', $id)->firstOrFail();
+        if ($post->trashed()) { $post->forceDelete(); } else { $post->delete(); }
+
+        session()->flash('success', 'Post deleted successful');
+        return redirect()->route('posts.index');
+    }
+
+
+
+    /**
+     *Display list if all Trashed posts
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+
+    public function trashed()
+    {
+        $trashed = Post::withTrashed()->get(); //Search / get all trashed from model Post
+
+        return view('posts.index')->withPosts($trashed); //withpost - special function 
+       // return view('posts.index')->with('posts', $trashed);
+
     }
 }

@@ -8,28 +8,36 @@
 <div class="card card-default">
     <div class="card-header"> Categories </div>
     <div class="card-body">
-        <table class="table">
-            <thead>
-                <th>Name</th>
-                <th>Action</th>
-            </thead>
 
-            <tbody> 
-                @foreach ($categories as $category)
-                <tr>
-                    <td>{{ $category-> name }}</td>
-                    <td> <a href="{{ route('categories.edit', $category->id) }}" class="btn btn-info btn-sm"> Edit </a>
-                    <button onclick="$('#f{{ $category->id }}').submit()" type="button" class="btn btn-danger btn-sm"> Delete </button>
-                    <form action="{{ route('categories.destroy', $category->id) }}" id="f{{ $category->id }}" method="POST">
-                        @csrf
-                        @method('DELETE')
-                    </form>
-                    </td>  
-                </tr>
-            @endforeach 
-            </tbody>
+ @if($categories->count() > 0)
 
-        </table>
+ <table class="table">
+    <thead>
+        <th>Name</th>
+        <th>Action</th>
+    </thead>
+
+    <tbody>     
+        @foreach ($categories as $category)
+        <tr>
+            <td>{{ $category-> name }}</td>
+            <td> <a href="{{ route('categories.edit', $category->id) }}" class="btn btn-info btn-sm"> Edit </a>
+            <button onclick="$('#f{{ $category->id }}').submit()" type="button" class="btn btn-danger btn-sm"> Delete </button>
+            <form action="{{ route('categories.destroy', $category->id) }}" id="f{{ $category->id }}" method="POST">
+                @csrf
+                @method('DELETE')
+            </form>
+            </td>  
+        </tr>
+    @endforeach 
+    </tbody>
+
+</table>
+     
+ @else
+     <h3 class="text-center">No categories available</h3>
+     <a href="{{ route('categories.create') }}" class="btn btn-success btn-sm d-flex justify-content-center">Create new</a>
+ @endif
     </div>
 </div>
  
